@@ -30,7 +30,7 @@ public class Cliente {
 
         Socket cliente = new Socket(Host, Puerto);              // ABRIMOS SOCKET CLIENTE
 
-        System.out.println("i> PROGRAMA CLIENTE INICIADO.... ENVIANDO SALUDO..."); // MENSAJE INFORMATIVO..
+        System.out.println("\nPROGRAMA CLIENTE INICIADO\n=========================\n"); // MENSAJE INFORMATIVO..
 
         // CREO FLUJO DE SALIDA AL SERVIDOR.
         DataOutputStream flujoSalida = new DataOutputStream(cliente.getOutputStream());
@@ -39,13 +39,13 @@ public class Cliente {
         DataInputStream flujoEntrada = new DataInputStream(cliente.getInputStream());
       
         // ENVIO UN SALUDO DE HANDSHACKE AL SERVIDOR, LO RECIBE Y ESTE CONTESTA
-        flujoSalida.writeUTF("c> HOOOLA!! SOY MiK ... Saludos al SERVIDOR DESDE EL CLIENTE");
-        System.out.println("i> MENSAJE ENVIADO... ESPERANDO RESPUESTA DEL SERVIDOR....");
+        flujoSalida.writeUTF("c> HOOOLA!! SOY MiK ... Saludos al SERVER DESDE EL CLIENTE");
+        System.out.println("i> HANDSHAKE ENVIADO... ESPERANDO RESPUESTA DEL SERVIDOR....");
         // ESTO PODRÍA PODUCIR UN DEATH LOCK - CANDADO DE LA MUERTE - SI LOS DOS SE QUENDA ESCUCHANDO
         
         do {
             // EL SERVIDOR ME ENVIA UN MENSAJE   
-            System.out.println("i> Recibiendo mensaje del SERVIDOR: \n" + flujoEntrada.readUTF());
+            System.out.println("i> Recibiendo respuesta del SERVIDOR: \n" + flujoEntrada.readUTF());
             System.out.print("?> ESCRIBE UN NUEVO MENSAJE C>S: ");
             mensaje = br.readLine();
             if (mensaje.equalsIgnoreCase("salir")) {
@@ -53,7 +53,7 @@ public class Cliente {
             } else {
                 // ENVIO UN SALUDO AL SERVIDOR, LO RECIBE Y ESTE CONTESTA
                 flujoSalida.writeUTF("c> " + mensaje);
-                System.out.println("i> ESPERANDO MENSAJE DEL SERVIDOR....");
+                System.out.println("i> MENSAJE ENVIADO... ESPERANDO RESPUESTA DEL SERVIDOR....");
 
             }
         } while (!salir);
