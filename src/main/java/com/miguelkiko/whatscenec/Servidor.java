@@ -24,8 +24,10 @@ public class Servidor {
 
         ServerSocket servidor = new ServerSocket(puerto); // ABRIMOS SOCKET SERVER PARA ESCUCHA EN PUERTO INDICADO
         Socket clienteConectado = null;                         // PONEMOS A NULL EL SOCKET PARA EL CLIENTE
+        
+        System.out.println("SERVIDOR INICIADO\n=================\n"); // MENSAJE INFORMATIVO..
 
-        System.out.println("i> ESPERANDO AL CLIENTE...");     // MOSTRAMOS MENSAJE
+        System.out.println("i> ESPERANDO CONEXCIÓN DEL CLIENTE...");     // MOSTRAMOS MENSAJE
 
         DataOutputStream flujoSalida = null;
         DataInputStream flujoEntrada = null;
@@ -59,12 +61,14 @@ public class Servidor {
         entrada = clienteConectado.getInputStream();
         flujoEntrada = new DataInputStream(entrada);
         
+        flujoSalida.writeUTF("c> " + mensaje);        
+
         // EL CLIENTE ME ENVIA UN MENSAJE
         System.out.println("i> Recibiendo mensaje del CLIENTE: \n" + flujoEntrada.readUTF());
-
+        System.out.println("i> ESPERANDO MENSAJE DEL CLIENTE....");
        
         do {
-            
+            System.out.println("i> Recibiendo mensaje del CLIENTE: \n" + flujoEntrada.readUTF());
             // ENVIO EL MENSAJE AL CLIENTE
             System.out.print("?> ESCRIBE UN NUEVO MENSAJE S>C: ");
             mensaje = br.readLine();
@@ -73,8 +77,7 @@ public class Servidor {
             } else {
                 // ENVIO UN SALUDO AL SERVIDOR, LO RECIBE Y ESTE CONTESTA
                 flujoSalida.writeUTF("c> " + mensaje);        
-                System.out.println("i> ESPERANDO MENSAJE DEL CLIENTE....");
-                System.out.println("i> Recibiendo mensaje del CLIENTE: \n" + flujoEntrada.readUTF());
+                System.out.println("i> MENSAJE ENVIADO... ESPERANDO RESPUESTA DEL CLIENTE....");
             }
 
         } while (!salir);

@@ -34,13 +34,14 @@ public class Cliente {
 
         // CREO FLUJO DE SALIDA AL SERVIDOR.
         DataOutputStream flujoSalida = new DataOutputStream(cliente.getOutputStream());
-
-        // ENVIO UN SALUDO AL SERVIDOR, LO RECIBE Y ESTE CONTESTA
-        flujoSalida.writeUTF("c> HOOOLA!! SOY MiK ... Saludos al SERVIDOR DESDE EL CLIENTE");
-        System.out.println("i> ESPERANDO MENSAJE DEL SERVIDOR....");
-        // ESTO PODRÍA PODUCIR UN DEATH LOCK - CANDADO DE LA MUERTE - SI LOS DOS SE QUENDA ESCUCHANDO
+        
         // CREO FLUJO DE ENTRADA AL SERVIDOR
         DataInputStream flujoEntrada = new DataInputStream(cliente.getInputStream());
+      
+        // ENVIO UN SALUDO DE HANDSHACKE AL SERVIDOR, LO RECIBE Y ESTE CONTESTA
+        flujoSalida.writeUTF("c> HOOOLA!! SOY MiK ... Saludos al SERVIDOR DESDE EL CLIENTE");
+        System.out.println("i> MENSAJE ENVIADO... ESPERANDO RESPUESTA DEL SERVIDOR....");
+        // ESTO PODRÍA PODUCIR UN DEATH LOCK - CANDADO DE LA MUERTE - SI LOS DOS SE QUENDA ESCUCHANDO
         
         do {
             // EL SERVIDOR ME ENVIA UN MENSAJE   
