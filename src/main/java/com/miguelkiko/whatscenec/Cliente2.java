@@ -21,7 +21,7 @@ public class Cliente2 {
      
       public static void main(String[] args) throws Exception {
            
-            String Host = "192.168.1.165";                          // SERVIDOR LOCAL
+            String Host = "192.168.0.107";                          // SERVIDOR LOCAL
             int Puerto = 6001;                                      // PUERTO REMOTO PARA CONEXTAR
            
             System.out.println("i> PROGRAMA CLIENTE INICIADO....");

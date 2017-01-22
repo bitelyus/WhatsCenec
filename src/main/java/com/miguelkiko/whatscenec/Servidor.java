@@ -13,7 +13,6 @@ public class Servidor {
     public static void main(String[] arg) throws IOException {
 
         //String Host = "192.168.0.107";                          // SERVIDOR LOCAL
-        
         String mensaje = "";
         boolean salir = false;
         DateTime d = new DateTime();
@@ -27,7 +26,7 @@ public class Servidor {
         Socket clienteConectado = null;               // PONEMOS A NULL EL SOCKET PARA EL CLIENTE
 
         ServerSocket servidor = new ServerSocket(puerto);   // ABRIMOS SOCKET SERVER PARA ESCUCHA EN PUERTO INDICADO
-        
+
         System.out.println("\nSERVIDOR INICIADO\n=================\n"); // MENSAJE INFORMATIVO..
 
         System.out.println("i> ESPERANDO CONEXIÓN DEL CLIENTE...");     // MOSTRAMOS MENSAJE
@@ -35,63 +34,67 @@ public class Servidor {
         clienteConectado = servidor.accept();   // ACEPTAMOS LAS CONEXIONES ENTRANTES AL SERVIDOR.
         // EN ESTE PUNTO, EL FLUZO SE PARA HASTA QUE UN CLIENTE SE CONECTE, ENTONCES CONTINUARÁ...                                                                       // CUANDO RECIBA RESPUESTA, EL FLUJO SIGUE 
 
-        // USAMOS joda-time PARA MANUPULAR FECHAS FÁCILMENTE
-        dia = d.getDayOfMonth();
-        mes = d.getMonthOfYear();
-        anio = d.getYear();
-        hora = d.getHourOfDay();
-        minutos = d.getMinuteOfHour();
+        try {
+            // USAMOS joda-time PARA MANUPULAR FECHAS FÁCILMENTE
+            dia = d.getDayOfMonth();
+            mes = d.getMonthOfYear();
+            anio = d.getYear();
+            hora = d.getHourOfDay();
+            minutos = d.getMinuteOfHour();
 
-        if (hora > 0 && hora < 10) {
-            mensaje = "BUENAS MADRUGADAS!!... HAY UN POCO SUEÑO, VERDAD??";
-        } else if (hora > 10 && hora < 18) {
-            mensaje = "BUENAS TARDES... PAKETE!!";
-        } else if (hora > 18 && hora < 24) {
-            mensaje = "BUENAS NOCHES!!! TIRA PARA LA KAMITA YA, GANDÚL, ZARRAPASTROZO!!! ... ANDA ANDA...!!";
-        }
-
-        mensaje += "\ns> TE HAS CONECTADO A LAS '" + hora + ":" + minutos + "' DEL '" + dia + "-" + mes + "-" + anio + "'";
-        
-        // CREO FLUJO DE SALIDA AL CLIENTE
-        salida = clienteConectado.getOutputStream();
-        flujoSalida = new DataOutputStream(salida);
-
-        // CREO FLUJO DE ENTRADA DEL CLIENTE
-        entrada = clienteConectado.getInputStream();
-        flujoEntrada = new DataInputStream(entrada);
-        
-        // ENVIAMOS RESPUESTA AL SALUDO HANDSHAKE DEL CLIENTE Y ESPERAMOS ENTRADA
-        flujoSalida.writeUTF("s> " + mensaje);        
-
-        // EL CLIENTE ME ENVIA UN MENSAJE
-        System.out.println("i> Recibiendo HANDSHAKE del CLIENTE: \n" + flujoEntrada.readUTF());
-        System.out.println("i> SALUDO DE BIENVENDIA ENVIADO!! ... ESPERANDO MENSAJE DEL CLIENTE....");
-       
-        do {
-            System.out.println("i> Recibiendo mensaje del CLIENTE: \n" + flujoEntrada.readUTF());
-            // ENVIO EL MENSAJE AL CLIENTE
-            System.out.print("?> ESCRIBE UN NUEVO MENSAJE S>C: ");
-            mensaje = br.readLine();
-            if (mensaje.equalsIgnoreCase("salir")) {
-                salir = true;
-            } else {
-                // ENVIO UN SALUDO AL SERVIDOR, LO RECIBE Y ESTE CONTESTA
-                flujoSalida.writeUTF("s> " + mensaje);        
-                System.out.println("i> MENSAJE ENVIADO... ESPERANDO RESPUESTA DEL CLIENTE....");
+            if (hora > 0 && hora < 10) {
+                mensaje = "BUENAS MADRUGADAS!!... HAY UN POCO SUEÑO, VERDAD??";
+            } else if (hora > 10 && hora < 18) {
+                mensaje = "BUENAS TARDES... PAKETE!!";
+            } else if (hora > 18 && hora < 24) {
+                mensaje = "BUENAS NOCHES!!! TIRA PARA LA KAMITA YA, GANDÚL, ZARRAPASTROZO!!! ... ANDA ANDA...!!";
             }
 
-        } while (!salir);
+            mensaje += "\ns> TE HAS CONECTADO A LAS '" + hora + ":" + minutos + "' DEL '" + dia + "-" + mes + "-" + anio + "'";
 
-        // CERRAR STREAMS Y SOCKETS
-        entrada.close();
-        salida.close();
+            // CREO FLUJO DE SALIDA AL CLIENTE
+            salida = clienteConectado.getOutputStream();
+            flujoSalida = new DataOutputStream(salida);
 
-        flujoEntrada.close();
-        flujoSalida.close();
+            // CREO FLUJO DE ENTRADA DEL CLIENTE
+            entrada = clienteConectado.getInputStream();
+            flujoEntrada = new DataInputStream(entrada);
 
-        clienteConectado.close();
-        servidor.close();
+            // ENVIAMOS RESPUESTA AL SALUDO HANDSHAKE DEL CLIENTE Y ESPERAMOS ENTRADA
+            flujoSalida.writeUTF("s> " + mensaje);
 
-    }// main
+            // EL CLIENTE ME ENVIA UN MENSAJE
+            System.out.println("i> Recibiendo HANDSHAKE del CLIENTE: \n" + flujoEntrada.readUTF());
+            System.out.println("i> SALUDO DE BIENVENDIA ENVIADO!! ... ESPERANDO MENSAJE DEL CLIENTE....");
 
-}// fin de Ejemplo1Servidor
+            do {
+                System.out.println("i> Recibiendo mensaje del CLIENTE: \n" + flujoEntrada.readUTF());
+                // ENVIO EL MENSAJE AL CLIENTE
+                System.out.print("?> ESCRIBE UN NUEVO MENSAJE S>C: ");
+                mensaje = br.readLine();
+                if (mensaje.equalsIgnoreCase("salir")) {
+                    salir = true;
+                } else {
+                    // ENVIO UN SALUDO AL SERVIDOR, LO RECIBE Y ESTE CONTESTA
+                    flujoSalida.writeUTF("s> " + mensaje);
+                    System.out.println("i> MENSAJE ENVIADO... ESPERANDO RESPUESTA DEL CLIENTE....");
+                }
+
+            } while (!salir);
+        } catch (EOFException ex) {
+            System.err.println("\n!> ERROR EOF: Stream Cortado! : " + ex.getMessage());
+        } finally {
+            // CERRAR STREAMS Y SOCKETS
+            entrada.close();
+            salida.close();
+
+            flujoEntrada.close();
+            flujoSalida.close();
+
+            clienteConectado.close();
+            servidor.close();
+        }
+
+    }// END MAIN
+
+}// END CLASS SERVIDOR
