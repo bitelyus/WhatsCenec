@@ -18,7 +18,7 @@ public class ServidorMultiHilo {
             ServerSocket servidor;                                              // CREAMOS SOCKET DE CONEXION LADO SERVIDOR (SERVERSOCKET)
             servidor = new ServerSocket(6000);                                  // PUERTO DE ESCUCHA ....
 
-            System.out.println("\nSERVIDOR MULTIHILO INICIADO\n==========================\n");     // MENSAJE INFORMATIVO..
+            System.out.println("\nSERVIDOR MULTIHILO INICIADO\n===========================\n");     // MENSAJE INFORMATIVO..
             System.out.println("i> ESPERANDO CONEXIÓN ENTRANTE DE CLIENTE..."); // MOSTRAMOS MENSAJE
             while (true) {                                                      // HACEMOS ESTO DURANTE EL SERVIDOR ESTÉ CONECTADO
                 Socket cliente = new Socket();                                // CREAMOS SOCKET DE CONEXION LADO CLIENTE
