@@ -21,8 +21,8 @@ public class Cliente2 {
      
       public static void main(String[] args) throws Exception {
            
-            String Host = "192.168.0.107";                          // SERVIDOR LOCAL
-            int Puerto = 6001;                                      // PUERTO REMOTO PARA CONEXTAR
+            String Host = "192.168.1.88";                           // SERVIDOR LOCAL
+            int Puerto = 6000;                                      // PUERTO REMOTO PARA CONEXTAR
            
             System.out.println("i> PROGRAMA CLIENTE INICIADO....");
             Socket Cliente = new Socket(Host, Puerto);              // ABRIMOS SOCKET CLIENTE
@@ -38,7 +38,7 @@ public class Cliente2 {
             // CREO FLUJO DE ENTRADA AL SERVIDOR
             DataInputStream flujoEntrada = new DataInputStream(Cliente.getInputStream());
            
-            // EL SERVIDOR ME ENVIA UN MENSAJE   
+            // EL SERVIDOR ME ENVIA UN MENSAJE ... SE QUEDA A LA ESPERA DE RECIBIR EL MENSAJE 
             System.out.println("i> Recibiendo mensaje del SERVIDOR: \n" + flujoEntrada.readUTF());
            
             // CERRAR STREAMS Y SOCKETS

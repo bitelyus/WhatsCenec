@@ -22,7 +22,7 @@ public class Cliente {
 
     public static void main(String[] args) throws Exception {
 
-        String Host = "192.168.0.107";                          // SERVIDOR LOCAL
+        String Host = "192.168.1.88";                          // SERVIDOR LOCAL
         int Puerto = 6000;                                      // PUERTO REMOTO PARA CONEXTAR
         boolean salir = false;
         String mensaje = "";

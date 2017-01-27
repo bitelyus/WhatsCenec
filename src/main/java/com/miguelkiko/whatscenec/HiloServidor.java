@@ -1,6 +1,11 @@
 /*
  * Projecto de Conexion entre Equipos - Cliente : Servidor
  * (c) - 2017 | Miguel KiKO @ www.miguelkiko.com - 2ºDAM
+ *
+ * NOTAS: diferencias entre .run() y .start()
+ * .run() -> llama al metodo run sin crear nuevo hilo
+ * .start() -> crea un huevo hilo para el solito y se hace el run
+ *
  */
 package com.miguelkiko.whatscenec;
 
@@ -87,9 +92,7 @@ public class HiloServidor extends Thread {
                 salida.close();
 
                 flujoEntrada.close();
-                flujoSalida.close();
-
-               
+                flujoSalida.close();     
             }
             
         } catch (Exception ex) {
